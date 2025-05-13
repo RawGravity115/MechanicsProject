@@ -1,1 +1,0 @@
-Due to high time step, at some point disks appear one inside each other (high x), and due to high k parameter the repelling force (-kx) is too high resulting in teleportation of disks out of bounds. 

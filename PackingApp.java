@@ -26,11 +26,11 @@ public class PackingApp extends AbstractSimulation {
 
 
   double prevArea     = Double.POSITIVE_INFINITY;
-  double epsilon      = 1e-2;    // relative area tolerance
+  double epsilon      = 1e-3;    // relative area tolerance
   int    cycleCount   = 0;
   int    maxCycles    = 1000;    // hard cap
   int    stableCount  = 0;
-  int    stableThreshold = 5;    // require 5 consecutive small changes
+  int    stableThreshold = 15;    // require 5 consecutive small changes
 
 
   boolean     readFromFile;

@@ -336,23 +336,39 @@ public class PackingApp extends AbstractSimulation {
   }
 
   private void loadConfiguration(String file) {
-    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.isEmpty() || line.startsWith("#")) continue;
-        String[] tok = line.split("[,\\s]+");
-        if (tok.length < 3) continue;
-        disks.add(new Disk(
-          Double.parseDouble(tok[0]),
-          Double.parseDouble(tok[1]),
-          Double.parseDouble(tok[2])
-        ));
-      }
-    } catch (IOException e) {
-      control.println("Could not read " + file + ": " + e);
-    }
-  }
+	  try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+	    String line;
+	    boolean readingPositions = false;
+	    while ((line = br.readLine()) != null) {
+	      line = line.trim();
+	      if (line.isEmpty()) {
+	        continue;              
+	      }
+	      if (line.startsWith("#")) {
+	        continue;             
+	      }
+	      if (!readingPositions) {
+	        if (line.equalsIgnoreCase("i,x,y,r")) {
+	          readingPositions = true;
+	        }
+	        continue;
+	      }
+	      String[] tok = line.split(",");
+	      if (tok.length < 4) {
+	        continue;              
+	      }
+	      try {
+	        double x = Double.parseDouble(tok[1]);
+	        double y = Double.parseDouble(tok[2]);
+	        double r = Double.parseDouble(tok[3]);
+	        disks.add(new Disk(x, y, r));
+	      } catch (NumberFormatException ex) {
+	      }
+	    }
+	  } catch (IOException e) {
+	    control.println("Could not read " + file + ": " + e);
+	  }
+	}
 
   @Override
   public void stop() {
